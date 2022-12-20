@@ -15,14 +15,14 @@ function App() {
       <Header />
       <Router>
         <Switch>
-          <Route path="/">
-            <Home />
-          </Route>
           <Route path="/tv">
-            <Search />
+            <Tv />
           </Route>
           <Route path="/search">
-            <Tv />
+            <Search />
+          </Route>
+          <Route path="/">
+            <Home />
           </Route>
         </Switch>
       </Router>
