@@ -33,6 +33,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
     line-height: 1;
+    height: 200vh;
   font-family: 'Source Sans Pro', sans-serif;
 }
 ol, ul {
