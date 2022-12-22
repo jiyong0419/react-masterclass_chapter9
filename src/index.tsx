@@ -36,6 +36,9 @@ body {
     line-height: 1;
     height: 200vh;
   font-family: 'Source Sans Pro', sans-serif;
+  color: ${(props) => props.theme.white.darker};
+  background-color: black;
+
 }
 ol, ul {
     list-style: none;
