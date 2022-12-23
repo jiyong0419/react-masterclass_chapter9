@@ -123,7 +123,6 @@ function Header() {
       } else {
         navAnimation.start("scroll");
       }
-      console.log(scrollY.get());
     });
   }, [scrollY, navAnimation]);
 
