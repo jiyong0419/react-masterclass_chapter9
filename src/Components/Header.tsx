@@ -13,6 +13,11 @@ const Nav = styled(motion.nav)`
   font-size: 14px;
   padding: 20px 60px;
   color: white;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.4),
+    rgba(0, 0, 0, 0)
+  );
 `;
 
 const Col = styled.div`
@@ -82,6 +87,7 @@ const Input = styled(motion.input)`
   border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
+// Variants
 const logoVariants = {
   normal: { fillOpacity: 1, scale: 1 },
   active: {
