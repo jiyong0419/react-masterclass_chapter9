@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { getMovies, IGetMoviesResult } from "../api";
 import { makeImagePath } from "../utilities";
 import { motion, AnimatePresence } from "framer-motion";
+import { useHistory, useRouteMatch } from "react-router-dom";
 
 const Wrapper = styled.div`
   background-color: black;
@@ -51,13 +52,15 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const Box = styled(motion.div)<{ bgPhoto: string }>`
-  background-image: url(${(props) => props.bgPhoto});
+const Box = styled(motion.div)<{ boxphoto: string }>`
+  background-image: url(${(props) => props.boxphoto});
   background-size: cover;
   background-position: center;
   height: 200px;
   font-size: 30px;
+  cursor: pointer;
   overflow: hidden;
+
   &:first-child {
     transform-origin: left;
   }
@@ -119,12 +122,17 @@ const infoVariants = {
   },
 };
 
-const boxAmount = 6;
+//Component
+
 function Home() {
+  const boxAmount = 6;
   const { data, isLoading } = useQuery<IGetMoviesResult>(
     ["movies", "nowPlaying"],
     getMovies
   );
+  const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId");
+  console.log(bigMovieMatch);
+
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const IncreaseIndex = () => {
@@ -138,6 +146,12 @@ function Home() {
       );
     }
   };
+  const history = useHistory();
+
+  const onBoxClick = (movieId: number) => {
+    history.push(`/movies/${movieId}`);
+  };
+
   return (
     <Wrapper>
       {isLoading ? (
@@ -169,11 +183,13 @@ function Home() {
                   .slice(boxAmount * index, boxAmount * index + boxAmount)
                   .map((movie) => (
                     <Box
+                      layoutId={movie.id + ""}
                       key={movie.id}
                       variants={boxVariants}
                       whileHover="hover"
                       initial="start"
-                      bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
+                      boxphoto={makeImagePath(movie.backdrop_path, "w500")}
+                      onClick={() => onBoxClick(movie.id)}
                     >
                       <Info variants={infoVariants}>
                         <h4>{movie.title}</h4>
@@ -183,6 +199,23 @@ function Home() {
               </Row>
             </AnimatePresence>
           </Slider>
+          {bigMovieMatch ? (
+            <AnimatePresence>
+              <motion.div
+                layoutId={bigMovieMatch.params.movieId}
+                style={{
+                  position: "absolute",
+                  width: "40vw",
+                  height: "80vh",
+                  backgroundColor: "red",
+                  top: 50,
+                  left: 0,
+                  right: 0,
+                  margin: "0 auto",
+                }}
+              ></motion.div>
+            </AnimatePresence>
+          ) : null}
         </>
       )}
     </Wrapper>
